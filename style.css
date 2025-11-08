@@ -1,0 +1,77 @@
+body {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  font-family: "Poppins", Helvetica, sans-serif;
+  background-color: white;
+  height: 100vh;
+  margin: 0;
+
+}
+
+.container {
+  width: 400px;
+  background-color: #f4f4f4;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.answer-container {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
+.answer-container button,
+.next-btn,
+.back-btn {
+  /* background: white;
+  color: black; */
+  border: none;
+  border-radius: 8px;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* .answer-container button {
+ 
+} */
+
+.answer-container button {
+  display: flex;
+  row-gap: 1rem;
+  /* text-align: center; */
+}
+
+.answer-btn-toggle {
+  background-color: black;
+  color: #f4f4f4;
+}
+
+.next-btn,
+.back-btn {
+  background-color: black;
+  color: white;
+  width: 70%;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.navigation-btn {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+/* .answer-container button {
+  background: black;
+  color: #f4f4f4;
+} */

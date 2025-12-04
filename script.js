@@ -3,7 +3,7 @@ const questionEL = document.querySelector(".question-field");
 
 const options = document.getElementsByName('option')
 const nextBtn = document.querySelector(".next-btn")
-// intiali
+
 const questions = [
   {
     question: "what is the capital city of Nigeria",
@@ -80,54 +80,80 @@ function LoadQuestion() {
 
   // Display each option
 
-  for (let i = 0; i < options.length; i++) {
-    options[i].textContent = `${aphabetOpt[i]} ${current.options[i]} `
-    options[i].classList.remove("answer-btn-toggle");
-    options[i].style = ""
-    options[i].style.pointerEvents = "auto"
+  // for (let i = 0; i < options.length; i++) {
+  //   options[i].textContent = `${aphabetOpt[i]} ${current.options[i]} `
+  //   options[i].classList.remove("answer-btn-toggle");
+  //   options[i].style = ""
+  //   options[i].style.pointerEvents = "auto"
+
+  //   // Re-highlight previously choosen answer
+
+  //   if (userAnswers[currentIndex] === current.options[i]) {
+  //     options[i].classList.add("answer-btn-toggle");
+  //     // options[i].style.background = "black"
+  //   }
+  // }
+
+
+  options.forEach((optionBtn, i) => {
+
+    optionBtn.textContent = `${aphabetOpt[i]} ${current.options[i]} `
+    optionBtn.classList.remove("answer-btn-toggle");
+    optionBtn.style = ""
+    optionBtn.style.pointerEvents = "auto"
 
     // Re-highlight previously choosen answer
 
     if (userAnswers[currentIndex] === current.options[i]) {
       options[i].classList.add("answer-btn-toggle");
-      // options[i].style.background = "black"
+
     }
-  }
+  });
 }
 // options toggle select
 function turnOffAll() {
-  for (let i = 0; i < options.length; i++) {
-    options[i].classList.remove('answer-btn-toggle')
-  }
+  // for (let i = 0; i < options.length; i++) {
+  //   options[i].classList.remove('answer-btn-toggle')
+  // }
+
+  options.forEach(optionBtn => {
+    optionBtn.classList.remove('answer-btn-toggle')
+  })
 };
-
-for (let i = 0; i < options.length; i++) {
-  options[i].addEventListener('click', () => {
-    turnOffAll()
-    options[i].classList.add('answer-btn-toggle')
-    options[i].style.background = "";
-  });
-}
-
 
 
 // handle optiion selction
-for (let i = 0; i < options.length; i++) {
-  options[i].addEventListener('click', () => {
 
+// for (let i = 0; i < options.length; i++) {
+//   options[i].addEventListener('click', () => {
+
+//     turnOffAll();
+//     options[i].classList.add("answer-btn-toggle");
+
+//     // extract text properly (remove label like "(a).")
+//     let selectedOpt = options[i].textContent.split(" ").slice(1).join(" ").trim();
+
+//     // store user's answer for current question
+//     userAnswers[currentIndex] = selectedOpt
+//     console.log(userAnswers);
+
+//   })
+
+// }
+
+options.forEach(optionBtn => {
+  optionBtn.addEventListener("click", () => {
     turnOffAll();
-    options[i].classList.add("answer-btn-toggle");
+    optionBtn.classList.add("answer-btn-toggle")
 
     // extract text properly (remove label like "(a).")
-    let selectedOpt = options[i].textContent.split(" ").slice(1).join(" ").trim();
+
+    let selectedOpt = optionBtn.textContent.split(" ").slice(1).join(" ").trim();
 
     // store user's answer for current question
     userAnswers[currentIndex] = selectedOpt
-    console.log(userAnswers);
-
   })
-
-}
+});
 
 nextBtn.addEventListener('click', () => {
 
@@ -136,9 +162,11 @@ nextBtn.addEventListener('click', () => {
     questionNumber++
     LoadQuestion()
   }
+
   if (currentIndex === questions.length - 1) {
-    alert('questions finished ! click the to submit')
+    alert("Last question — click Submit when you're done.");
   }
+
 });
 
 
@@ -159,12 +187,21 @@ backBtn.addEventListener('click', () => {
 function showResult() {
   let score = 0;
 
-  for (let i = 0; i < questions.length; i++) {
-    const correctAnswer = questions[i].answer
+  // for (let i = 0; i < questions.length; i++) {
+  //   const correctAnswer = questions[i].answer
+  //   if (userAnswers[i] === correctAnswer) {
+  //     score++
+  //   }
+  // }
+
+  questions.forEach((question, i) => {
+    const correctAnswer = question.answer
     if (userAnswers[i] === correctAnswer) {
       score++
     }
-  }
+  });
+
+
   document.querySelector(".container").innerHTML = `
     <h2>Quiz Finished ✅</h2>
     <p>You scored ${score} / ${questions.length}</p>
@@ -179,4 +216,28 @@ const submitBtn = document.querySelector('.submit-btn')
 submitBtn.addEventListener('click', () => {
   showResult()
 });
+
+// Quiz timer
+
+let seconds = 0
+let minutes = 0;
+const timerDisplay = document.querySelector("#timer-display");
+let id;
+
+id = setInterval(() => {
+
+  if (seconds === 60) {
+    minutes++
+    seconds = 0;
+  }
+  //Submit when the timer is 1 minutes
+  if (minutes === 1) {
+    clearInterval(id)
+    showResult()
+  }
+  timerDisplay.textContent = timerDisplay.innerHTML =
+    `  ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  ;
+  seconds++
+}, 1000)
 LoadQuestion();
